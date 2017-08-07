@@ -25,7 +25,8 @@
     "node-sass": "^4.5.2",
     "tslib": "^1.6.0",
     "typescript": "^2.5.0-dev.20170617",
-    "uglify-js": "^3.0.17"
+    "uglify-js": "^3.0.17",
+	"postcss-modules": "latest"
   },
   "dependencies": {
     "moment": "^2.18.1",

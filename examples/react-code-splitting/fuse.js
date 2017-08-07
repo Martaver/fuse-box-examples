@@ -1,4 +1,4 @@
-const { Sparky, FuseBox, UglifyJSPlugin, QuantumPlugin, WebIndexPlugin, CSSPlugin, EnvPlugin } = require("fuse-box");
+const { Sparky, FuseBox, UglifyJSPlugin, QuantumPlugin, WebIndexPlugin, CSSPlugin, EnvPlugin, SassPlugin, CSSModules } = require("fuse-box");
 const express = require("express");
 const path = require("path");
 let producer;
@@ -15,7 +15,13 @@ Sparky.task("build", () => {
         cache: !production,
         plugins: [
             EnvPlugin({ NODE_ENV: production ? "production" : "development" }),
-            CSSPlugin(),
+            [
+                SassPlugin({
+                    cache: true
+                }),
+                CSSModules({}),
+                CSSPlugin({})
+            ],
             WebIndexPlugin({
                 title: "React Code Splitting demo",
                 template: "src/index.html",

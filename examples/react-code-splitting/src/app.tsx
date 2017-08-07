@@ -9,7 +9,7 @@ import {
     Switch,
     Link
 } from 'react-router-dom';
-import "./styles/main.css";
+import styles from "./styles/main.scss";
 
 ReactDOM.render(
     <div>
