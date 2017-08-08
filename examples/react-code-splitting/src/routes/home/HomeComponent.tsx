@@ -3,6 +3,7 @@ import { Component } from 'react';
 
 import styles from "./HomeComponent.scss";
 
+
 export default class HomeComponent extends Component {
     constructor(props) {
         super(props);

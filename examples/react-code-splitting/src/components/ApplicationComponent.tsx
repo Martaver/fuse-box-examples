@@ -20,6 +20,7 @@ export default class ApplicationComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        console.log("Constructing...")
     }
 
     render() {
