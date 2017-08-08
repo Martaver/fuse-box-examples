@@ -3,10 +3,13 @@ import { Component } from 'react';
 
 import styles from "./HomeComponent.scss";
 
+import { Dictionary } from "typescript-collections";
+
 
 export default class HomeComponent extends Component {
     constructor(props) {
         super(props);
+        const dic = new Dictionary<number, string>()
     }
     render() {
         return (

@@ -1,4 +1,14 @@
-const { Sparky, FuseBox, UglifyJSPlugin, QuantumPlugin, WebIndexPlugin, CSSPlugin, EnvPlugin, SassPlugin, CSSModules } = require("fuse-box");
+const {
+    Sparky,
+    FuseBox,
+    UglifyJSPlugin,
+    QuantumPlugin,
+    WebIndexPlugin,
+    CSSPlugin,
+    EnvPlugin,
+    SassPlugin,
+    CSSModules
+} = require("fuse-box");
 const express = require("express");
 const path = require("path");
 let producer;
@@ -14,8 +24,9 @@ Sparky.task("build", () => {
         experimentalFeatures: true,
         cache: !production,
         plugins: [
-            EnvPlugin({ NODE_ENV: production ? "production" : "development" }),
-            [
+            EnvPlugin({
+                NODE_ENV: production ? "production" : "development"
+            }), [
                 SassPlugin({
                     cache: true
                 }),
@@ -27,21 +38,23 @@ Sparky.task("build", () => {
                 template: "src/index.html",
                 path: "/static/"
             }),
-            production && QuantumPlugin({
+            QuantumPlugin({
                 treeshake: true,
                 removeExportsInterop: false,
-                uglify: true
+                uglify: false
             })
         ]
     });
 
     //if (!production) {
     // Configure development server
-    fuse.dev({ root: false }, server => {
+    fuse.dev({
+        root: false
+    }, server => {
         const dist = path.join(__dirname, "dist");
         const app = server.httpServer.app;
         app.use("/static/", express.static(path.join(dist, 'static')));
-        app.get("*", function(req, res) {
+        app.get("*", function (req, res) {
             res.sendFile(path.join(dist, "static/index.html"));
         });
     })
@@ -51,11 +64,16 @@ Sparky.task("build", () => {
     // extract dependencies automatically
     const vendor = fuse.bundle("vendor")
         .instructions(`~ **/**.{ts,tsx} +tslib`)
-    if (!production) { vendor.hmr(); }
+    if (!production) {
+        vendor.hmr();
+    }
 
     const app = fuse.bundle("app")
         // Code splitting ****************************************************************
-        .splitConfig({ browser: "/static/", dest: "bundles/" })
+        .splitConfig({
+            browser: "/static/",
+            dest: "bundles/"
+        })
         .split("routes/about/**", "about > routes/about/AboutComponent.tsx")
         .split("routes/contact/**", "contact > routes/contact/ContactComponent.tsx")
         .split("routes/home/**", "home > routes/home/HomeComponent.tsx")
@@ -63,7 +81,9 @@ Sparky.task("build", () => {
         // bundle routes for lazy loading as there is not require statement in or entry point
         .instructions(`> [app.tsx] + [routes/**/**.{ts, tsx}]`)
 
-    if (!production) { app.hmr().watch() }
+    if (!production) {
+        app.hmr().watch()
+    }
 
     return fuse.run();
 });
