@@ -28,7 +28,7 @@ Sparky.task("build", () => {
                 NODE_ENV: production ? "production" : "development"
             }), [
                 SassPlugin({
-                    cache: true
+                    importer: true
                 }),
                 CSSModules({}),
                 CSSPlugin({})
@@ -38,7 +38,7 @@ Sparky.task("build", () => {
                 template: "src/index.html",
                 path: "/static/"
             }),
-            QuantumPlugin({
+            production && QuantumPlugin({
                 treeshake: true,
                 removeExportsInterop: false,
                 uglify: false
@@ -54,10 +54,18 @@ Sparky.task("build", () => {
         const dist = path.join(__dirname, "dist");
         const app = server.httpServer.app;
         app.use("/static/", express.static(path.join(dist, 'static')));
-        app.get("*", function (req, res) {
+        app.get("*", function(req, res) {
             res.sendFile(path.join(dist, "static/index.html"));
         });
     })
+
+    fuse.register("typescript-collections", {
+        main: "dist/lib/index.js",
+        homeDir: "node_modules/typescript-collections",
+        instructions: " "
+    })
+
+
 
     //  }
 

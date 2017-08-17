@@ -1,3 +1,5 @@
+@import "../../styles/shared.scss";
+
 .container {
-    background-color: orangered;
+    background-color: $myColor;
 }
